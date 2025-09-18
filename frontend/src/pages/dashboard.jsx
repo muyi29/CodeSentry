@@ -8,23 +8,47 @@ function Dashboard() {
   const [reviews, setReviews] = useState([]);
 
   const handleSubmit = async () => {
-    const { data } = await fetchPRReview(owner, repo, prNumber);
-    setReviews(data.reviews);
+    try {
+      const { data } = await fetchPRReview(owner, repo, prNumber);
+      setReviews(data.reviews);
+    } catch (error) {
+      console.error("Error fetching review:", error);
+    }
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-xl font-bold">CodeSentry - AI PR Reviewer</h1>
-      <input placeholder="Owner" onChange={e => setOwner(e.target.value)} />
-      <input placeholder="Repo" onChange={e => setRepo(e.target.value)} />
-      <input placeholder="PR Number" onChange={e => setPrNumber(e.target.value)} />
-      <button onClick={handleSubmit}>Review PR</button>
+    <div>
+      <h2 className="text-xl font-semibold mb-4">AI PR Reviewer</h2>
 
-      <div className="mt-4">
+      <div className="space-x-2">
+        <input
+          className="border p-2 rounded"
+          placeholder="Owner"
+          onChange={(e) => setOwner(e.target.value)}
+        />
+        <input
+          className="border p-2 rounded"
+          placeholder="Repo"
+          onChange={(e) => setRepo(e.target.value)}
+        />
+        <input
+          className="border p-2 rounded"
+          placeholder="PR Number"
+          onChange={(e) => setPrNumber(e.target.value)}
+        />
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+          onClick={handleSubmit}
+        >
+          Review PR
+        </button>
+      </div>
+
+      <div className="mt-6 space-y-4">
         {reviews.map((r, i) => (
-          <div key={i} className="border p-2 my-2">
-            <h2>{r.filename}</h2>
-            <pre>{r.review}</pre>
+          <div key={i} className="border p-4 bg-white rounded shadow">
+            <h3 className="font-bold">{r.filename}</h3>
+            <pre className="whitespace-pre-wrap">{r.review}</pre>
           </div>
         ))}
       </div>
