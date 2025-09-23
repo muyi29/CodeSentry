@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = axios.create({ baseURL: "http://localhost:8000/api/v1" });
+const API = axios.create({ baseURL: "/api/v1" }); // proxy handles the rest
 
 export const fetchPRReview = (owner, repo, prNumber) =>
   API.get(`/review/${owner}/${repo}/${prNumber}`);
