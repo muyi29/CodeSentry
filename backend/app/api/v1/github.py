@@ -6,9 +6,6 @@ from fastapi import HTTPException
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 GITHUB_API = "https://api.github.com"
 
-if not GITHUB_TOKEN:
-    raise ValueError("GITHUB_TOKEN environment variable is not set")
-
 def get_pr_files(owner: str, repo: str, pr_number: int) -> List[Dict]:
     """
     Fetch files changed in a pull request from GitHub API.
