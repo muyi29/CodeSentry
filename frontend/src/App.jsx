@@ -7,7 +7,7 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900">
       <header className="p-4 shadow-md bg-white">
-        <h1 className="text-2xl font-bold">CodeSentry</h1>
+        <h1 className="text-2xl font-bold">CodeSentry </h1>
       </header>
 
       <main className="p-6">
