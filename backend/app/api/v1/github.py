@@ -2,6 +2,10 @@ import requests
 import os
 from typing import List, Dict
 from fastapi import HTTPException
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 GITHUB_API = "https://api.github.com"
@@ -21,6 +25,17 @@ def get_pr_files(owner: str, repo: str, pr_number: int) -> List[Dict]:
     Raises:
         HTTPException: If GitHub API request fails
     """
+    # Check if token is set
+    if not GITHUB_TOKEN:
+        raise HTTPException(
+            status_code=500, 
+            detail="GITHUB_TOKEN not configured. Please set it in your .env file"
+        )
+    
+    # Debug - print token info
+    print(f"Token being used: {GITHUB_TOKEN[:15]}... (length: {len(GITHUB_TOKEN)})")
+    print(f"Token starts with 'ghp_': {GITHUB_TOKEN.startswith('ghp_')}")
+    
     # Input validation
     if not owner or not repo:
         raise HTTPException(status_code=400, detail="Owner and repo are required")
@@ -36,6 +51,12 @@ def get_pr_files(owner: str, repo: str, pr_number: int) -> List[Dict]:
     
     try:
         response = requests.get(url, headers=headers, timeout=10)
+        
+        # Debug logging
+        print(f"GitHub API Response Status: {response.status_code}")
+        if response.status_code != 200:
+            print(f"GitHub API Error Response: {response.text}")
+        
         response.raise_for_status()
         return response.json()
     except requests.exceptions.Timeout:

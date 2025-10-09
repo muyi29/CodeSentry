@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from app.api.v1.github import get_pr_files
-from app.api.v1.review import analyze_code
+from app.api.v1.review_gemini import analyze_code  # Using Gemini now!
 from typing import List, Dict
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
