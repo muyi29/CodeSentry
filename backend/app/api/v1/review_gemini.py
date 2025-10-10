@@ -56,25 +56,40 @@ def analyze_code(diff: str, filename: str) -> dict:
         # Create Gemini client (uses GEMINI_API_KEY env var)
         client = genai.Client(api_key=GEMINI_API_KEY)
         
-        prompt = f"""You are an expert code reviewer. Analyze this code diff for the file: {filename}
+        prompt = f"""You are a senior software engineer conducting a thorough code review for: {filename}
 
-Respond with a JSON object containing:
-- "quality": Brief code quality assessment (2-3 sentences)
-- "security": Array of security concerns (empty array if none)
-- "performance": Array of performance improvement suggestions (empty array if none)
-- "best_practices": Array of best practice recommendations (empty array if none)
-- "severity": Overall severity level - must be exactly one of: "low", "medium", "high", or "critical"
+Analyze this code diff in detail. Be specific about what changed and why it matters.
 
-Code diff:
+**Instructions:**
+- Reference actual variable names, function names, and specific code patterns from the diff
+- Explain the impact of the changes, not just what they are
+- If the change is small, still provide thoughtful analysis of edge cases, potential bugs, or improvements
+- Be critical but constructive
+- Don't be generic - analyze THIS specific code change
+
+**Code diff:**
 ```
 {diff}
 ```
 
-Respond ONLY with valid JSON, no markdown code blocks, no additional text."""
+**Respond with a JSON object:**
+{{
+  "quality": "Detailed assessment referencing specific code elements. Explain what changed, why it matters, and potential issues. 3-5 sentences minimum.",
+  "security": ["Specific security concerns with technical details", "Reference actual code if vulnerabilities exist"],
+  "performance": ["Specific performance impacts with technical reasoning", "Mention algorithmic complexity if relevant"],
+  "best_practices": ["Concrete suggestions referencing the actual code", "Modern patterns or standards that could improve this"],
+  "severity": "low|medium|high|critical"
+}}
+
+Respond ONLY with valid JSON."""
 
         response = client.models.generate_content(
             model="gemini-2.0-flash-exp",  # Using latest Gemini 2.0 Flash
-            contents=prompt
+            contents=prompt,
+            config={
+                "temperature": 0.4,  # Slightly higher for more detailed analysis
+                "max_output_tokens": 2048,  # Allow longer responses
+            }
         )
         
         content = response.text.strip()
