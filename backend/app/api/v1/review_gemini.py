@@ -1,5 +1,5 @@
 import os
-import google.generativeai as genai
+from google import genai
 from fastapi import HTTPException
 from dotenv import load_dotenv
 import json
@@ -10,10 +10,6 @@ load_dotenv()
 # Check which AI provider to use
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 MOCK_MODE = os.getenv("MOCK_MODE", "false").lower() == "true"
-
-# Configure Gemini
-if GEMINI_API_KEY:
-    genai.configure(api_key=GEMINI_API_KEY)
 
 def analyze_code(diff: str, filename: str) -> dict:
     """
@@ -57,8 +53,8 @@ def analyze_code(diff: str, filename: str) -> dict:
         )
     
     try:
-        # Use Gemini 1.5 Flash (fast and free!)
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        # Create Gemini client (uses GEMINI_API_KEY env var)
+        client = genai.Client(api_key=GEMINI_API_KEY)
         
         prompt = f"""You are an expert code reviewer. Analyze this code diff for the file: {filename}
 
@@ -76,12 +72,9 @@ Code diff:
 
 Respond ONLY with valid JSON, no markdown code blocks, no additional text."""
 
-        response = model.generate_content(
-            prompt,
-            generation_config=genai.types.GenerationConfig(
-                temperature=0.3,
-                max_output_tokens=1000,
-            )
+        response = client.models.generate_content(
+            model="gemini-2.0-flash-exp",  # Using latest Gemini 2.0 Flash
+            contents=prompt
         )
         
         content = response.text.strip()
