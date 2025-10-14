@@ -42,40 +42,6 @@ git clone https://github.com/yourusername/codesentry.git
 cd codesentry
 ```
 
-### 2. Backend Setup
-
-```bash
-cd backend
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-
-# Create .env file
-cat > .env << EOF
-GITHUB_TOKEN=your_github_token_here
-GEMINI_API_KEY=your_gemini_key_here
-MOCK_MODE=false
-EOF
-
-# Start server
-python -m uvicorn app.main:app --reload
-```
-
-✅ Backend running at `http://localhost:8000`
-
-### 3. Frontend Setup
-
-```bash
-cd ../frontend
-npm install
-npm run dev
-```
-
-✅ Frontend running at `http://localhost:5173`
-
----
-
-## 📖 Usage
 
 1. **Enter PR Details**
    - Repository Owner (e.g., `vercel`)
