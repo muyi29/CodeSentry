@@ -38,7 +38,7 @@ https://www.loom.com/share/878c5becc04d4123b41886d806d7191d?sid=de203737-98c7-49
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/codesentry.git
+git clone https://github.com/muyi29/codesentry.git
 cd codesentry
 ```
 
