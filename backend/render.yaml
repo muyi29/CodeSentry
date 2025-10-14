@@ -1,13 +1,13 @@
+# render.yaml
 services:
   - type: web
-    name: codesentry-api
-    runtime: python
-    rootDir: backend
+    name: CodeSentry
+    env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: PYTHON_VERSION
-        value: "3.11"
+        value: 3.12.5
       - key: GITHUB_TOKEN
         sync: false
       - key: GEMINI_API_KEY
