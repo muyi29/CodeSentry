@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API = axios.create({ 
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:8000/api/v1",
-  timeout: 60000, // 60 seconds for AI processing
+  timeout: 180000, // 180 seconds (3 minutes)
 });
 
 // Request interceptor for logging
