@@ -154,26 +154,27 @@ function Dashboard() {
             <p className="text-sm text-white/60">AI-powered code analysis in seconds</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
-            {[
-              { label: "Owner", value: owner, setValue: setOwner, placeholder: "vercel" },
-              { label: "Repository", value: repo, setValue: setRepo, placeholder: "next.js" },
-              { label: "PR #", value: prNumber, setValue: setPrNumber, placeholder: "12345", type: "number" },
-            ].map((field, i) => (
-              <div key={i}>
-                <label className="block text-xs font-medium text-white/70 mb-1.5">
-                  {field.label}
-                </label>
-                <input
-                  className="w-full h-9 px-3 rounded-lg border border-white/10 bg-white/5 text-sm text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-white/20 transition-all"
-                  placeholder={field.placeholder}
-                  value={field.value}
-                  type={field.type || "text"}
-                  onChange={(e) => field.setValue(e.target.value)}
-                />
-              </div>
-            ))}
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+  {[
+    { label: "Owner", value: owner, setValue: setOwner, placeholder: "vercel" },
+    { label: "Repository", value: repo, setValue: setRepo, placeholder: "next.js" },
+    { label: "PR #", value: prNumber, setValue: setPrNumber, placeholder: "12345", type: "number" },
+  ].map((field, i) => (
+    <div key={i}>
+      <label className="block text-xs font-medium text-white/70 mb-1.5">
+        {field.label}
+      </label>
+      <input
+        className="w-full h-9 px-3 rounded-lg border border-white/10 bg-white/5 text-sm text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-white/20 transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+        placeholder={field.placeholder}
+        value={field.value}
+        type={field.type || "text"}
+        onChange={(e) => field.setValue(e.target.value)}
+      />
+    </div>
+  ))}
+</div>
+
 
           <button
             className="w-full h-10 bg-white hover:bg-white/90 text-black text-sm font-medium rounded-lg transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
